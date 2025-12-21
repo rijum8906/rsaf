@@ -1,0 +1,58 @@
+{
+	"name": "rsaf-monorepo",
+	"version": "0.1.0",
+	"description": "Reactive Server Application Framework",
+	"private": true,
+	"scripts": {
+		"build": "pnpm -r build",
+		"clean": "pnpm -r clean",
+		"dev": "pnpm -r dev",
+		"test": "pnpm -r test",
+		"test:run": "pnpm -r test:run",
+		"test:coverage": "vitest -r test:coverage",
+		"format": "pnpm -r format",
+		"format:check": "pnpm -r format:check",
+		"format:root:check": "prettier --check .",
+		"format:root": "prettier --write .",
+		"lint": "pnpm -r lint",
+		"lint:fix": "pnpm -r lint:fix",
+		"lint:root:fix": "eslint . --ext .ts,.tsx --fix",
+		"lint:root": "eslint . --ext .ts,.tsx",
+		"clean:all": "pnpm clean:root && pnpm -r clean",
+		"clean:root": "rimraf node_modules/",
+		"type-check": "pnpm -r type-check",
+		"prepare": "husky"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"packageManager": "pnpm@10.25.0",
+	"devDependencies": {
+		"@types/node": "^25.0.3",
+		"@vitest/coverage-v8": "^4.0.16",
+		"eslint": "^9.39.2",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-import-resolver-typescript": "^4.4.4",
+		"eslint-plugin-import": "^2.32.0",
+		"eslint-plugin-prettier": "^5.5.4",
+		"globals": "^16.5.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"prettier": "^3.7.4",
+		"rimraf": "^6.1.2",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.50.0",
+		"vitest": "^4.0.16"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"lint-staged": {
+		"*.{ts,tsx}": [
+			"eslint --fix"
+		],
+		"*.{json,md,yml,yaml}": [
+			"prettier --write"
+		]
+	}
+}

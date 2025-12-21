@@ -1,0 +1,14 @@
+{
+	"extends": "./tsconfig.base.json",
+	"references": [
+		{
+			"path": "./packages/nexus"
+		},
+		{
+			"path": "./packages/nexus-build/"
+		},
+		{
+			"path": "./packages/utils"
+		}
+	]
+}

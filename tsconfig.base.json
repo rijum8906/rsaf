@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		// JS output + language features
+		"target": "ES2022",
+		"lib": ["es2022"],
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"verbatimModuleSyntax": true,
+		"resolveJsonModule": true,
+
+		// Strictness
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+
+		// Build behavior
+		"skipLibCheck": true,
+		"noEmitOnError": true,
+		"importHelpers": true
+	}
+}
