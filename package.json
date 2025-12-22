@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"description": "Reactive Server Application Framework",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"build": "pnpm -r build",
 		"clean": "pnpm -r clean",
