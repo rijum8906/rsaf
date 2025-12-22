@@ -2,13 +2,19 @@
 	"extends": "./tsconfig.base.json",
 	"references": [
 		{
-			"path": "./packages/nexus"
+			"path": "./packages/build/"
 		},
 		{
-			"path": "./packages/nexus-build/"
+			"path": "./packages/cli/"
 		},
 		{
-			"path": "./packages/utils"
+			"path": "./packages/core/"
+		},
+		{
+			"path": "./packages/create-rsaf/"
+		},
+		{
+			"path": "./packages/runtime/"
 		}
 	]
 }
