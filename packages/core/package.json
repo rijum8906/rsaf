@@ -4,6 +4,9 @@
 	"description": "Core package for rsaf",
 	"main": "dist/index.js",
 	"type": "module",
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"lint": "eslint src --max-warnings=0",
 		"lint:fix": "eslint src --fix",
