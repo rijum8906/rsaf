@@ -56,7 +56,7 @@ importers:
                 specifier: ^4.0.16
                 version: 4.0.16(@types/node@25.0.3)(yaml@2.8.2)
 
-    packages/build:
+    packages/bundler:
         dependencies:
             '@rsaf/core':
                 specifier: ^0.0.3
