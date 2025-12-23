@@ -5,10 +5,29 @@
 
 import z from 'zod';
 
-export const configSchema = z.object({
-	appModulePath: z.string().nonempty('appModulePath is required'),
-	htmlTemplatePath: z.string().nonempty('htmlTemplatePath is required'),
-});
+import { AppError } from '../app-error/AppError.js';
+import type { ErrorCategory } from '../app-error/categories.js';
+import type { ErrorCode } from '../app-error/codes.js';
+
+export const configSchema = z
+	.object({
+		appModulePath: z.string().endsWith('.tsx').nonempty('appModulePath is required'),
+		htmlTemplatePath: z.string().endsWith('.html').nonempty('htmlTemplatePath is required'),
+	})
+	.catch(ctx => {
+		// Create custom erorr code, category, message to match the centralize error format
+		const code: ErrorCode =
+			ctx.issues[0]?.code === 'invalid_format' ? 'INVALID_TYPE' : 'UNKNOWN_ERROR';
+		const category: ErrorCategory = 'filesystem';
+		const message = `"${ctx.issues[0]?.input}" is not a valid file type"`;
+
+		// Throw AppError to centralize error
+		throw new AppError(message, {
+			code,
+			category,
+			details: ctx.issues,
+		});
+	});
 
 // export type
 export type RsafConfig = z.infer<typeof configSchema>;
