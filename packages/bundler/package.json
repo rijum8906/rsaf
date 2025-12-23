@@ -1,6 +1,6 @@
 {
 	"name": "@rsaf/bundler",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Bundler package for rsaf",
 	"type": "module",
 	"exports": {
