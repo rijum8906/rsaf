@@ -1,8 +1,11 @@
 {
 	"name": "@rsaf/cli",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"description": "CLI of rsaf",
 	"type": "module",
+	"files": [
+		"dist"
+	],
 	"bin": {
 		"rsaf": "dist/index.js"
 	},

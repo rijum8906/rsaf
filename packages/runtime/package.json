@@ -1,9 +1,11 @@
 {
 	"name": "@rsaf/runtime",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"description": "Runtime package for rsaf",
 	"type": "module",
-	"main": "dist/index.js",
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"lint": "eslint src --max-warnings=0",
 		"lint:fix": "eslint src --fix",
@@ -21,5 +23,8 @@
 	"keywords": [],
 	"author": "Riju Mondal",
 	"license": "MIT",
-	"packageManager": "pnpm@10.25.0"
+	"packageManager": "pnpm@10.25.0",
+	"publishConfig": {
+		"access": "public"
+	}
 }

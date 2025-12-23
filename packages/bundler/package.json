@@ -3,6 +3,9 @@
 	"version": "0.0.2",
 	"description": "Bundler package for rsaf",
 	"type": "module",
+	"files": [
+		"dist"
+	],
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",

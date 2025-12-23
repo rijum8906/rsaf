@@ -1,8 +1,11 @@
 {
 	"name": "create-rsaf",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"description": "Creates RSAF project",
 	"type": "module",
+	"files": [
+		"dist"
+	],
 	"bin": {
 		"create-rsaf": "dist/index.js"
 	},
@@ -23,5 +26,8 @@
 	"keywords": [],
 	"author": "Riju Mondal",
 	"license": "MIT",
-	"packageManager": "pnpm@10.25.0"
+	"packageManager": "pnpm@10.25.0",
+	"publishConfig": {
+		"access": "public"
+	}
 }
