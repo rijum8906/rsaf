@@ -1,5 +1,11 @@
 # @rsaf/bundler
 
+## 0.0.4
+
+### Patch Changes
+
+- 823899c: Added new functions create(Client|Server)Config
+
 ## 0.0.3
 
 ### Patch Changes
