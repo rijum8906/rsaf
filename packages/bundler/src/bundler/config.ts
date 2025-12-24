@@ -1,16 +1,18 @@
+import { join } from 'node:path';
+
 import {
 	ASSET_LOADERS,
 	BASE_LOADERS,
 	ESBUILD_BASE_CONFIG,
 	NO_ASSET_LOADERS,
 } from '../config/esbuild.js';
-import { DEV_CLIENT_DIR } from '../config/path.js';
 import type {
 	ESBuildClientDevConfig,
 	ESBuildClientProdConfig,
 	ESBuildServerDevConfig,
 	ESBuildServerProdConfig,
 } from '../types/config.js';
+import { CACHE_DIR } from '../utils/constants.js';
 
 // Create compiler configuration
 export function createClientConfig(
@@ -21,13 +23,14 @@ export function createClientConfig(
 	}
 ): ESBuildClientDevConfig | ESBuildClientProdConfig {
 	const isDev = env === 'dev';
+	const cwd = process.cwd();
 
 	// Base config with required properties
 	const baseConfig = {
 		...ESBUILD_BASE_CONFIG,
 		absWorkingDir: options.absWorkingDir,
 		entryPoints: options.entryPoints,
-		outdir: DEV_CLIENT_DIR,
+		outdir: join(cwd, CACHE_DIR, 'client'),
 		plugins: [],
 	};
 
@@ -85,13 +88,14 @@ export function createServerConfig(
 	}
 ): ESBuildServerDevConfig | ESBuildServerProdConfig {
 	const isDev = env === 'dev';
+	const cwd = process.cwd();
 
 	// Base config with required properties
 	const baseConfig = {
 		...ESBUILD_BASE_CONFIG,
 		absWorkingDir: options.absWorkingDir,
 		entryPoints: options.entryPoints,
-		outdir: DEV_CLIENT_DIR,
+		outdir: join(cwd, CACHE_DIR, 'server'),
 		plugins: [],
 	};
 
