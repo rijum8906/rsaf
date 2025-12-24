@@ -10,8 +10,8 @@
 		"create-rsaf": "dist/index.js"
 	},
 	"scripts": {
-		"lint": "eslint src --max-warnings=0",
-		"lint:fix": "eslint src --fix",
+		"lint": "eslint . --max-warnings=0",
+		"lint:fix": "eslint . --fix",
 		"type-check": "tsc --noEmit",
 		"type-check:watch": "tsc --noEmit --watch",
 		"build": "pnpm clean && tsc -b",
