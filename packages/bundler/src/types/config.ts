@@ -6,37 +6,26 @@ import type { Loader, Plugin } from 'esbuild';
 // Base configuration
 export interface ESBuildBaseConfig {
 	// Build optimizations
-	minify: boolean;
-	metafile: true;
 	color: true;
 	logLevel: 'silent';
 
 	// Performance
 	treeShaking: true;
-	minifyWhitespace: boolean;
-	minifyIdentifiers: boolean;
-	minifySyntax: boolean;
-
-	// Code splitting
-	splitting: false;
 
 	// Format
 	format: 'esm';
-
-	// Source maps for debugging
-	sourcemap: boolean | 'inline' | 'linked';
 
 	// Paths
 	absWorkingDir: string;
 	outdir?: string; // Optional in dev mode (memory)
 	outfile?: string; // Alternative to outdir
-	entryPoints: string[] | Record<string, string>;
-
-	// Write to disk or memory
-	write?: boolean; // false = keep in memory (dev mode)
+	entryPoints: string[];
 
 	// Plugins
 	plugins: Plugin[];
+
+	// Jsx
+	jsx: 'automatic';
 }
 
 export type LoaderFiles = Record<string, Loader>;
@@ -47,7 +36,7 @@ export interface ESBuildClientConfig {
 	target: ['es2022'];
 	loader: LoaderFiles;
 	bundle: true;
-	splitting: true;
+	packages: 'bundle';
 }
 
 // Server-specific configuration
@@ -57,8 +46,7 @@ export interface ESBuildServerConfig {
 	loader: LoaderFiles;
 	packages: 'external';
 	external: string[];
-	bundle: true;
-	splitting: false; // Server doesn't need splitting
+	bundle: false;
 }
 
 // Dev Mode configuration
@@ -67,8 +55,9 @@ export interface ESBuildDevConfig {
 	minifyWhitespace: false;
 	minifyIdentifiers: false;
 	minifySyntax: false;
-	sourcemap: 'inline' | true;
 	write: false; // Keep in memory for dev
+	splitting: false;
+	metafile: true;
 }
 
 // Prod Mode configuration
@@ -77,8 +66,9 @@ export interface ESBuildProdConfig {
 	minifyWhitespace: true;
 	minifyIdentifiers: true;
 	minifySyntax: true;
-	sourcemap: 'linked' | false;
 	write: true; // Write to disk for prod
+	splitting: true;
+	metafile: false;
 }
 
 // Combined configuration types
@@ -93,3 +83,6 @@ export type ESBuildConfig =
 	| ESBuildClientProdConfig
 	| ESBuildServerDevConfig
 	| ESBuildServerProdConfig;
+
+// Asset Type
+export type Loaders = Record<string, Loader>;

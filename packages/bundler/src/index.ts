@@ -1,4 +1,9 @@
 // Bundler
 export * from './bundler/Bundler.js';
+export * from './bundler/config.js';
+
 //Cache
 export * from './cache/cache-store.js';
+
+// Types
+export * from './types/config.js';
