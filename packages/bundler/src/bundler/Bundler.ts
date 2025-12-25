@@ -6,15 +6,15 @@ import type { BuildResult } from 'esbuild';
 import type { ESBuildConfig } from '../types/config.js';
 
 /**
- * EsbuildCompiler
- *
- * Thin wrapper around esbuild that provides:
- * - build
- * - watch
- * - rebuild
- * - close
- *
- * It uses esbuild's `context()` + `watch()` APIs under the hood.
+ * A thin wrapper around the `esbuild` API designed to manage build lifecycles.
+ * The `Bundler` class abstracts the complexity of esbuild's `context()` and `watch()`
+ * APIs, providing a unified interface for initial builds, incremental rebuilds,
+ * and persistent file watching.
+ * @example
+ * ```ts
+ * const bundler = new Bundler(config);
+ * await bundler.build();
+ * ```
  */
 export class Bundler {
 	private options: ESBuildConfig;
@@ -22,12 +22,18 @@ export class Bundler {
 	private lastResult?: BuildResult;
 	private isWatching = false;
 
+	/**
+	 * Creates an instance of the Bundler.
+	 * @param options - Configuration options for the esbuild engine.
+	 */
 	constructor(options: ESBuildConfig) {
 		this.options = options;
 	}
 
 	/**
-	 * Adds an esbuild plugin to the compiler configuration.
+	 * Injects an esbuild plugin into the current configuration.
+	 * @param plugin - The esbuild plugin to add.
+	 * @returns The current {@link Bundler} instance for method chaining.
 	 */
 	addPlugin(plugin: esbuild.Plugin): this {
 		if (!this.options.plugins) {
@@ -38,15 +44,17 @@ export class Bundler {
 	}
 
 	/**
-	 * Performs an initial build or rebuild depending on mode.
+	 * Executes a build process.
+	 * If the bundler is currently in watch mode, it performs an incremental
+	 * rebuild using the existing context. Otherwise, it performs a fresh build.
+	 * @returns A promise resolving to the {@link BuildResult}.
+	 * @throws {@link AppError} with code `BUILD_FAILED` if the build process encounters errors.
 	 */
 	async build(): Promise<BuildResult> {
 		try {
 			if (this.isWatching && this.context) {
-				// In watch mode, we can use rebuild
 				this.lastResult = await this.context.rebuild();
 			} else {
-				// Initial build
 				this.lastResult = await esbuild.build(this.options as esbuild.BuildOptions);
 			}
 
@@ -63,30 +71,25 @@ export class Bundler {
 	}
 
 	/**
-	 * Enables esbuild's internal watch mode.
-	 *
-	 * Note:
-	 * If you're using chokidar for file watching,
-	 * esbuild's onRebuild callback is NOT used anymore.
-	 *
-	 * Esbuild will still keep its rebuild context alive,
-	 * but file watching is controlled externally.
+	 * Initializes and starts esbuild's internal watch mode.
+	 * This method creates a persistent build context. While esbuild's native
+	 * watcher is activated, this setup is often used in conjunction with
+	 * external watchers (like Chokidar) by calling {@link rebuild}.
+	 * @remarks
+	 * If a context already exists, it will be disposed of before creating a new one.
+	 * @throws {@link AppError} if the context cannot be initialized.
 	 */
 	async watch(): Promise<void> {
 		if (this.isWatching) return;
 
 		this.isWatching = true;
 
-		// If an old context exists, dispose it
 		if (this.context) {
 			await this.dispose();
 		}
 
 		try {
-			// Create a new esbuild build context
 			this.context = await esbuild.context(this.options as esbuild.BuildOptions);
-
-			// Start esbuild's watch mode with no onRebuild handlers
 			await this.context.watch();
 		} catch (
 			error: any // eslint-disable-line
@@ -100,13 +103,14 @@ export class Bundler {
 	}
 
 	/**
-	 * Manually trigger a rebuild.
-	 *
-	 * This is what chokidar will call when a file changes.
+	 * Manually triggers an incremental rebuild.
+	 * This is typically invoked by an external file watcher when changes are detected.
+	 * @returns A promise resolving to the {@link BuildResult} of the increment.
+	 * @throws {@link AppError} if called before {@link watch} has initialized a context.
 	 */
 	async rebuild(): Promise<BuildResult> {
 		if (!this.context) {
-			throw new AppError('You must call "watch()" before usinf "rebuild()', {
+			throw new AppError('You must call "watch()" before using "rebuild()"', {
 				code: 'BUILD_FAILED',
 				category: 'build',
 			});
@@ -116,7 +120,7 @@ export class Bundler {
 			this.lastResult = await this.context.rebuild();
 			return this.lastResult;
 		} catch (
-			error: any //eslint-disable-line
+			error: any // eslint-disable-line
 		) {
 			throw new AppError('Looks like there is some errors while rebuilding', {
 				code: 'BUILD_FAILED',
@@ -127,9 +131,9 @@ export class Bundler {
 	}
 
 	/**
-	 * Dispose of resources.
-	 *
-	 * Releases esbuild’s internal rebuild/watcher context.
+	 * Gracefully shuts down the bundler and releases system resources.
+	 * This disposes of the esbuild context, stops watchers, and clears internal cache.
+	 * @throws {@link AppError} if the disposal process fails.
 	 */
 	async dispose(): Promise<void> {
 		if (!this.context) return;
@@ -137,7 +141,7 @@ export class Bundler {
 		try {
 			await this.context.dispose();
 		} catch (
-			error: any //eslint-disable-line
+			error: any // eslint-disable-line
 		) {
 			throw new AppError('Failed to stop. Try again', {
 				code: 'BUILD_FAILED',
@@ -152,14 +156,16 @@ export class Bundler {
 	}
 
 	/**
-	 * Get last esbuild result.
+	 * Retrieves the result of the most recent successful build or rebuild.
+	 * @returns The {@link BuildResult} or `undefined` if no build has occurred yet.
 	 */
 	getLastResult(): BuildResult | undefined {
 		return this.lastResult;
 	}
 
 	/**
-	 * Whether the compiler is currently in watch mode.
+	 * Indicates whether the bundler is currently in an active watch state.
+	 * @returns `true` if watching, otherwise `false`.
 	 */
 	isInWatchMode(): boolean {
 		return this.isWatching;

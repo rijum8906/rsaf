@@ -14,7 +14,20 @@ import type {
 } from '../types/config.js';
 import { CACHE_DIR } from '../utils/constants.js';
 
-// Create compiler configuration
+/**
+ * Generates an esbuild configuration specifically for the Client (browser) environment.
+ * * @remarks
+ * The client configuration differs from the server in several key ways:
+ * - **Platform**: Targeted for the `browser`.
+ * - **Asset Loaders**: Includes loaders for images/styles (`ASSET_LOADERS`).
+ * - **Bundling**: `bundle: true` is used to resolve all dependencies for the browser.
+ * - **Write Mode**: In `dev`, `write` is set to `false` to support in-memory serving.
+ * * @param env - The build environment: `'dev'` for development or `'prod'` for production.
+ * @param options - Configuration details.
+ * @param options.absWorkingDir - The absolute path to the project root.
+ * @param options.entryPoints - File paths or a mapping for the entry points to be bundled.
+ * * @returns A configuration object typed for either {@link ESBuildClientDevConfig} or {@link ESBuildClientProdConfig}.
+ */
 export function createClientConfig(
 	env: 'dev' | 'prod',
 	options: {
@@ -25,7 +38,6 @@ export function createClientConfig(
 	const isDev = env === 'dev';
 	const cwd = process.cwd();
 
-	// Base config with required properties
 	const baseConfig = {
 		...ESBUILD_BASE_CONFIG,
 		absWorkingDir: options.absWorkingDir,
@@ -35,7 +47,6 @@ export function createClientConfig(
 	};
 
 	if (isDev) {
-		// Dev configuration
 		return {
 			...baseConfig,
 			platform: 'browser',
@@ -55,7 +66,6 @@ export function createClientConfig(
 			metafile: true,
 		} as ESBuildClientDevConfig;
 	} else {
-		// Prod configuration
 		return {
 			...baseConfig,
 			platform: 'browser',
@@ -78,7 +88,19 @@ export function createClientConfig(
 }
 
 /**
- * Return configuration to create server bundler
+ * Generates an esbuild configuration specifically for the Server (Node.js) environment.
+ * * @remarks
+ * The server configuration is optimized for SSR and runtime execution:
+ * - **Platform**: Targeted for `node`.
+ * - **Asset Loaders**: Uses `NO_ASSET_LOADERS` as assets are typically handled by the client build.
+ * - **Externalization**: Automatically marks `react` and `react-dom` as external to avoid
+ * duplicate instances during server-side rendering.
+ * - **Bundling**: `bundle: false` and `packages: 'external'` are used to leverage Node's native module resolution.
+ * * @param env - The build environment: `'dev'` for development or `'prod'` for production.
+ * @param options - Configuration details.
+ * @param options.absWorkingDir - The absolute path to the project root.
+ * @param options.entryPoints - File paths or a mapping for the entry points (e.g., the SSR entry).
+ * * @returns A configuration object typed for either {@link ESBuildServerDevConfig} or {@link ESBuildServerProdConfig}.
  */
 export function createServerConfig(
 	env: 'dev' | 'prod',
@@ -90,7 +112,6 @@ export function createServerConfig(
 	const isDev = env === 'dev';
 	const cwd = process.cwd();
 
-	// Base config with required properties
 	const baseConfig = {
 		...ESBUILD_BASE_CONFIG,
 		absWorkingDir: options.absWorkingDir,
@@ -100,7 +121,6 @@ export function createServerConfig(
 	};
 
 	if (isDev) {
-		// Dev configuration
 		return {
 			...baseConfig,
 			platform: 'node',
@@ -121,7 +141,6 @@ export function createServerConfig(
 			external: ['react', 'react-dom'],
 		} as ESBuildServerDevConfig;
 	} else {
-		// Prod configuration
 		return {
 			...baseConfig,
 			platform: 'node',
