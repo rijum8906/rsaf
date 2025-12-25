@@ -22,24 +22,24 @@ interface PluginLifecycleHooks {
 	 * Use this for setup logic, initializing build-specific state, or clear/prepare output directories.
 	 * If this function returns a `Promise`, esbuild will wait for it to resolve before starting the build.
 	 */
-	onStart?: (this: PluginBuild) => void | Promise<void>;
+	onStart?: () => void | Promise<void>;
 
 	/**
 	 * Invoked at the end of every build or rebuild.
-	 * * @param result - The outcome of the build, including errors, warnings, and the metafile (if enabled).
+	 * @param result - The outcome of the build, including errors, warnings, and the metafile (if enabled).
 	 * @remarks
 	 * Ideal for post-processing tasks, such as generating manifest files,
 	 * triggering notifications, or cleaning up temporary files.
 	 */
-	onEnd?: (this: PluginBuild, result: BuildResult) => void | Promise<void>;
+	onEnd?: (result: BuildResult) => void | Promise<void>;
 
 	/**
 	 * Invoked when the plugin is disposed of, usually when the {@link Bundler.dispose} is called.
-	 * * @remarks
+	 * @remarks
 	 * Use this to close file watchers, database connections, or long-lived child processes
 	 * created within the plugin.
 	 */
-	onDispose?: (this: PluginBuild) => void;
+	onDispose?: () => void;
 
 	/**
 	 * Intercepts the loading of files that match specific criteria.
@@ -92,10 +92,10 @@ interface PluginLifecycleHooks {
  * }
  * });
  * ```
- * * @param pluginName - A unique name for the plugin (used for error reporting and debugging).
+ * @param pluginName - A unique name for the plugin (used for error reporting and debugging).
  * @param lifecycleHooks - An object containing the hooks to be registered.
  * @returns A standard esbuild {@link Plugin} object.
- * * @throws {TypeError} If `pluginName` is empty or not a string.
+ * @throws {TypeError} If `pluginName` is empty or not a string.
  */
 export function createDeclarativePlugin(
 	pluginName: string,
@@ -109,25 +109,26 @@ export function createDeclarativePlugin(
 		name: pluginName,
 		setup(build: PluginBuild) {
 			if (lifecycleHooks.onStart) {
-				build.onStart(lifecycleHooks.onStart.bind(build));
+				build.onStart(lifecycleHooks.onStart);
 			}
 
 			if (lifecycleHooks.onEnd) {
-				build.onEnd(lifecycleHooks.onEnd.bind(build));
+				build.onEnd(lifecycleHooks.onEnd);
 			}
 
 			if (lifecycleHooks.onDispose) {
-				build.onDispose(lifecycleHooks.onDispose.bind(build));
+				build.onDispose(lifecycleHooks.onDispose);
 			}
 
 			if (lifecycleHooks.onLoad) {
-				const { options, callback } = lifecycleHooks.onLoad;
-				build.onLoad(options, callback);
+				build.onLoad(lifecycleHooks.onLoad.options, lifecycleHooks.onLoad.callback);
 			}
 
 			if (lifecycleHooks.onResolve) {
-				const { options, callback } = lifecycleHooks.onResolve;
-				build.onResolve(options, callback);
+				build.onResolve(
+					lifecycleHooks.onResolve.options,
+					lifecycleHooks.onResolve.callback
+				);
 			}
 		},
 	};

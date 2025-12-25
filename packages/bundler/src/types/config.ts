@@ -139,3 +139,8 @@ export type ESBuildConfig =
  * Type alias for a map of file extensions to esbuild Loaders.
  */
 export type Loaders = Record<string, Loader>;
+
+/**
+ * Build Enviroment
+ */
+export type BuildEnv = 'dev' | 'prod';
