@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Page Title</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div id="root"></div>
+		<script>
+			var script = document.createElement('script');
+			script.src = '//cdn.jsdelivr.net/npm/eruda';
+			document.body.appendChild(script);
+			script.onload = () => eruda.init();
+		</script>
+	</body>
+</html>
