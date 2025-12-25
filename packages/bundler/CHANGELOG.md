@@ -1,5 +1,11 @@
 # @rsaf/bundler
 
+## 0.0.5
+
+### Patch Changes
+
+- 707ddab: Added new function to create esbuild plugins to act as middleware and improved codes and comments
+
 ## 0.0.4
 
 ### Patch Changes
