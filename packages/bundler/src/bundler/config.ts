@@ -7,6 +7,7 @@ import {
 	NO_ASSET_LOADERS,
 } from '../config/esbuild.js';
 import type {
+	BuildEnv,
 	ESBuildClientDevConfig,
 	ESBuildClientProdConfig,
 	ESBuildServerDevConfig,
@@ -29,7 +30,7 @@ import { CACHE_DIR } from '../utils/constants.js';
  * * @returns A configuration object typed for either {@link ESBuildClientDevConfig} or {@link ESBuildClientProdConfig}.
  */
 export function createClientConfig(
-	env: 'dev' | 'prod',
+	env: BuildEnv,
 	options: {
 		absWorkingDir: string;
 		entryPoints: string[] | Record<string, string>;
@@ -103,7 +104,7 @@ export function createClientConfig(
  * * @returns A configuration object typed for either {@link ESBuildServerDevConfig} or {@link ESBuildServerProdConfig}.
  */
 export function createServerConfig(
-	env: 'dev' | 'prod',
+	env: BuildEnv,
 	options: {
 		absWorkingDir: string;
 		entryPoints: string[] | Record<string, string>;

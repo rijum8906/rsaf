@@ -8,3 +8,4 @@ export * from './cache/cache-store.js';
 
 // Types
 export * from './types/config.js';
+export * from './types/esbuild.js';
