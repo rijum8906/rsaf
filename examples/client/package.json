@@ -1,0 +1,36 @@
+{
+	"name": "client",
+	"version": "0.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"lint": "eslint . --max-warnings=0",
+		"lint:fix": "eslint . --fix",
+		"type-check": "tsc --noEmit",
+		"type-check:watch": "tsc --noEmit --watch",
+		"build": "pnpm clean && tsc -b",
+		"dev": "tsc -b --watch",
+		"clean": "rimraf dist tsconfig.tsbuildinfo",
+		"format": "prettier . --write",
+		"format:check": "prettier . --check",
+		"test": "vitest",
+		"test:run": "vitest run",
+		"test:coverage": "vitest run --coverage"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"packageManager": "pnpm@10.26.2",
+	"dependencies": {
+		"@rsaf/core": "workspace:*",
+		"@rsaf/runtime": "workspace:*",
+		"react": "^19.2.3",
+		"react-dom": "^19.2.3"
+	},
+	"devDependencies": {
+		"@types/react": "^19.2.7",
+		"@types/react-dom": "^19.2.3"
+	}
+}
