@@ -1,5 +1,11 @@
 # @rsaf/bundler
 
+## 0.0.6
+
+### Patch Changes
+
+- f6d4458: Exported some types and improved type suggestions in createPlugin function
+
 ## 0.0.5
 
 ### Patch Changes
