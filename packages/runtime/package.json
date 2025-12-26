@@ -1,6 +1,6 @@
 {
 	"name": "@rsaf/runtime",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Runtime package for rsaf",
 	"type": "module",
 	"files": [
