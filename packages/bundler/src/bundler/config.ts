@@ -131,7 +131,6 @@ export function createServerConfig(
 				...NO_ASSET_LOADERS,
 			},
 			bundle: false,
-			packages: 'external',
 			minify: false,
 			minifyWhitespace: false,
 			minifyIdentifiers: false,
@@ -139,7 +138,6 @@ export function createServerConfig(
 			write: false,
 			splitting: false,
 			metafile: true,
-			external: ['react', 'react-dom'],
 		} as ESBuildServerDevConfig;
 	} else {
 		return {
@@ -151,7 +149,6 @@ export function createServerConfig(
 				...NO_ASSET_LOADERS,
 			},
 			bundle: false,
-			packages: 'external',
 			minify: true,
 			minifyWhitespace: true,
 			minifyIdentifiers: true,
@@ -159,7 +156,6 @@ export function createServerConfig(
 			write: true,
 			splitting: true,
 			metafile: false,
-			external: ['react', 'react-dom'],
 		} as ESBuildServerProdConfig;
 	}
 }

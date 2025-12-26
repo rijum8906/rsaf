@@ -70,8 +70,6 @@ export interface ESBuildServerConfig {
 	loader: LoaderFiles;
 	/** Prevents node_modules from being bundled into the server file. */
 	packages: 'external';
-	/** Specific package names to explicitly exclude from the bundle. */
-	external: string[];
 	/** Disabled for server to leverage native Node module resolution. */
 	bundle: false;
 }
