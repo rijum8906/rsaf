@@ -25,7 +25,7 @@ export default [
 			'**/*.d.ts', // Type declaration files
 			'**/test-output', // Custom test artifacts
 			'**/templates', // Code templates / generators
-			'**/.nexus', // Cache
+			'**/.rsaf', // Cache
 		],
 	},
 
