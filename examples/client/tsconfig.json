@@ -4,8 +4,9 @@
 	"compilerOptions": {
 		// Output settings
 		"target": "ES2022",
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
+		"module": "ES2022",
+		"moduleResolution": "bundler",
+		"lib": ["DOM"],
 
 		// Project structure
 		"rootDir": "src",

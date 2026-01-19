@@ -2,9 +2,6 @@
 	"extends": "./tsconfig.base.json",
 	"references": [
 		{
-			"path": "./packages/build/"
-		},
-		{
 			"path": "./packages/cli/"
 		},
 		{
