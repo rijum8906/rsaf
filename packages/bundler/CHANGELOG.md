@@ -1,5 +1,12 @@
 # @rsaf/bundler
 
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [5784da0]
+    - @rsaf/core@0.0.4
+
 ## 0.0.7
 
 ### Patch Changes
