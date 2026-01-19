@@ -1,6 +1,6 @@
 {
 	"name": "@rsaf/runtime",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Runtime package for rsaf",
 	"type": "module",
 	"files": [
@@ -35,7 +35,7 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@rsaf/bundler": "^0.0.7",
-		"@rsaf/core": "^0.0.3"
+		"@rsaf/bundler": "^0.0.8",
+		"@rsaf/core": "^0.0.4"
 	}
 }

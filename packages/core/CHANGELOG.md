@@ -1,5 +1,11 @@
 # @rsaf/core
 
+## 0.0.4
+
+### Patch Changes
+
+- c427499: improved defineConfig
+
 ## 0.0.3
 
 ### Patch Changes
