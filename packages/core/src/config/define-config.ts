@@ -15,8 +15,9 @@ import { configSchema, type RsafConfig } from './schema.js';
  * Return Type of defineConfig
  */
 export interface DefineConfigResult {
-	appModulePath: string;
 	htmlTemplatePath: string;
+	clientEntryPath: string;
+	serverEntryPath: string;
 }
 
 /**
@@ -50,12 +51,17 @@ export function defineConfig(config: RsafConfig): DefineConfigResult {
 		}
 
 		// Check file existence
-		const isAppExist = existsSync(join(cwd, config.appModulePath));
+		const isAppExist =
+			existsSync(join(cwd, config.clientEntryPath)) &&
+			existsSync(join(cwd, config.serverEntryPath));
 		if (!isAppExist)
-			throw new AppError(`${config.appModulePath} - file doesn't exist.`, {
-				code: 'FILE_NOT_FOUND',
-				category: 'filesystem',
-			});
+			throw new AppError(
+				`${config.clientEntryPath} or ${config.serverEntryPath} - file doesn't exist.`,
+				{
+					code: 'FILE_NOT_FOUND',
+					category: 'filesystem',
+				}
+			);
 		const isHtmlExist = existsSync(join(cwd, config.htmlTemplatePath));
 		if (!isHtmlExist)
 			throw new AppError(`${config.htmlTemplatePath} - file doesn't exist.`, {
@@ -66,7 +72,8 @@ export function defineConfig(config: RsafConfig): DefineConfigResult {
 		// Return
 		return {
 			htmlTemplatePath: config.htmlTemplatePath,
-			appModulePath: config.appModulePath,
+			serverEntryPath: config.serverEntryPath,
+			clientEntryPath: config.clientEntryPath,
 		};
 	} catch (
 		error: any // eslint-disable-line

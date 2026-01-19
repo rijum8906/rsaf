@@ -11,8 +11,9 @@ import type { ErrorCode } from '../app-error/codes.js';
 
 export const configSchema = z
 	.object({
-		appModulePath: z.string().endsWith('.tsx').nonempty('appModulePath is required'),
 		htmlTemplatePath: z.string().endsWith('.html').nonempty('htmlTemplatePath is required'),
+		serverEntryPath: z.string().endsWith('.tsx').nonempty('serverEntryPath is required'),
+		clientEntryPath: z.string().endsWith('.tsx').nonempty('clientEntryPath is required'),
 	})
 	.catch(ctx => {
 		// Create custom erorr code, category, message to match the centralize error format
