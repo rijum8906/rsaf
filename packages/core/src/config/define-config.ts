@@ -15,8 +15,9 @@ import { configSchema, type RsafConfig } from './schema.js';
  * Return Type of defineConfig
  */
 export interface DefineConfigResult {
-	appModulePath: string;
 	htmlTemplatePath: string;
+	serverEntryPath: string;
+	clientEntryPath: string;
 }
 
 /**
@@ -28,8 +29,9 @@ export interface DefineConfigResult {
  * import { defineConfig } from '@rsaf/core/config';
  *
  * export default defineConfig({
- *      appModulePath: './src/app/App.tsx',
  *      htmlTemplatePath: './index.html',
+ *      serverEntryPoint: './server.tsx',
+ *      clientEntryPoint: './client.tsx',
  * })
  * ```
  */
@@ -50,12 +52,17 @@ export function defineConfig(config: RsafConfig): DefineConfigResult {
 		}
 
 		// Check file existence
-		const isAppExist = existsSync(join(cwd, config.appModulePath));
+		const isAppExist =
+			existsSync(join(cwd, config.clientEntryPoint)) &&
+			existsSync(join(cwd, config.serverEntryPoint));
 		if (!isAppExist)
-			throw new AppError(`${config.appModulePath} - file doesn't exist.`, {
-				code: 'FILE_NOT_FOUND',
-				category: 'filesystem',
-			});
+			throw new AppError(
+				`${config.clientEntryPoint} or ${config.serverEntryPoint} - file doesn't exist.`,
+				{
+					code: 'FILE_NOT_FOUND',
+					category: 'filesystem',
+				}
+			);
 		const isHtmlExist = existsSync(join(cwd, config.htmlTemplatePath));
 		if (!isHtmlExist)
 			throw new AppError(`${config.htmlTemplatePath} - file doesn't exist.`, {
@@ -66,7 +73,8 @@ export function defineConfig(config: RsafConfig): DefineConfigResult {
 		// Return
 		return {
 			htmlTemplatePath: config.htmlTemplatePath,
-			appModulePath: config.appModulePath,
+			clientEntryPath: config.clientEntryPoint,
+			serverEntryPath: config.serverEntryPoint,
 		};
 	} catch (
 		error: any // eslint-disable-line
