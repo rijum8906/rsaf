@@ -23,6 +23,7 @@ export default [
 					format: ['PascalCase'],
 				},
 			],
+			'@typescript-eslint/explicit-function-return-type': 'off',
 		},
 	},
 	{

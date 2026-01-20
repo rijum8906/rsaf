@@ -1,6 +1,8 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
+import './App.css';
 
-export function App(): ReactNode {
+// eslint-disable-next-line
+export function App() {
 	const [count, setCount] = useState<number>(0);
 	return (
 		<>

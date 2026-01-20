@@ -13,6 +13,7 @@ export const configSchema = z
 	.object({
 		appModulePath: z.string().endsWith('.tsx').nonempty('appModulePath is required'),
 		htmlTemplatePath: z.string().endsWith('.html').nonempty('htmlTemplatePath is required'),
+		rootFilePath: z.string().endsWith('.tsx').nonempty('rootFilePath is required'),
 	})
 	.catch(ctx => {
 		// Create custom erorr code, category, message to match the centralize error format

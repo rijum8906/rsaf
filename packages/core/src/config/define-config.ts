@@ -17,6 +17,7 @@ import { configSchema, type RsafConfig } from './schema.js';
 export interface DefineConfigResult {
 	appModulePath: string;
 	htmlTemplatePath: string;
+	rootFilePath: string;
 }
 
 /**
@@ -30,6 +31,7 @@ export interface DefineConfigResult {
  * export default defineConfig({
  *      appModulePath: './src/app/App.tsx',
  *      htmlTemplatePath: './index.html',
+ *      rootFilePath: './src/root.tsx',
  * })
  * ```
  */
@@ -62,11 +64,18 @@ export function defineConfig(config: RsafConfig): DefineConfigResult {
 				code: 'FILE_NOT_FOUND',
 				category: 'filesystem',
 			});
+		const isRootExist = existsSync(join(cwd, config.rootFilePath));
+		if (!isRootExist)
+			throw new AppError(`${config.rootFilePath} - file doesn't exist.`, {
+				code: 'FILE_NOT_FOUND',
+				category: 'filesystem',
+			});
 
 		// Return
 		return {
 			htmlTemplatePath: config.htmlTemplatePath,
 			appModulePath: config.appModulePath,
+			rootFilePath: config.rootFilePath,
 		};
 	} catch (
 		error: any // eslint-disable-line
