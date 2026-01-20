@@ -1,5 +1,11 @@
 # @rsaf/core
 
+## 0.0.6
+
+### Patch Changes
+
+- 724a9ca: fixed defineConfig
+
 ## 0.0.3
 
 ### Patch Changes
