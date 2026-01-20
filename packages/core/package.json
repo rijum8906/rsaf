@@ -1,6 +1,6 @@
 {
 	"name": "@rsaf/core",
-	"version": "0.0.3",
+	"version": "0.0.5",
 	"description": "Core package for rsaf",
 	"type": "module",
 	"files": [
